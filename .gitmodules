@@ -1,0 +1,12 @@
+[submodule "Breeze.jl"]
+	path = Breeze.jl
+	url = https://github.com/michel2323/Breeze.jl.git
+	branch = ms/oneapi
+[submodule "Oceananigans.jl"]
+	path = Oceananigans.jl
+	url = https://github.com/michel2323/Oceananigans.jl.git
+	branch = ms/oneAPI-ka0.10
+[submodule "oneAPI.jl"]
+	path = oneAPI.jl
+	url = https://github.com/michel2323/oneAPI.jl.git
+	branch = ms/subgroup-16

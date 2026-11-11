@@ -1,0 +1,14 @@
+[deps]
+AbstractFFTs = "621f4979-c628-5d54-868e-fcf4e3e8185c"
+Breeze = "660aa2fb-d4c8-4359-a52c-9c057bc511da"
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+KernelAbstractions = "63c18a36-062a-441e-b654-da1e3ab1ce7c"
+Oceananigans = "9e8cae18-63c1-5223-a75c-80ca9d6e9a09"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+oneAPI = "8f75cd03-7ff8-4ecb-9b8f-daf728133b1b"
+
+[sources]
+Breeze = {path = "Breeze.jl"}
+Oceananigans = {path = "Oceananigans.jl"}
+oneAPI = {path = "oneAPI.jl"}
