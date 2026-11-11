@@ -1,0 +1,14 @@
+Breeze examples/splitting_supercell.jl, unmodified apart from the oneAPI switch on the ms/oneapi
+branch: 168x168x40 grid, Float32 model, Float64 anelastic pressure solver (Breeze default),
+2 hours of simulated time per core. Intel Arc A750 (8 GB), Julia 1.12.7, 2026-11-11,
+FP64 emulation enabled (OverrideDefaultFP64Settings=1 IGC_EnableDPEmulation=1).
+Excerpt from the end of the run log:
+
+========== Wall-time summary ==========
+case                wall (s)    wall (min)    iterations
+anelastic              179.7          3.00          1404
+compressible            45.5          0.76          1328
+
+Same anelastic run with pressure_solver_float_type=Float32
+(runs/supercell_a750_f32solver/splitting_supercell_f32solver.jl):
+anelastic_f32           45.9          0.76          1404

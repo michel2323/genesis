@@ -1,0 +1,10 @@
+[deps]
+KernelAbstractions = "63c18a36-062a-441e-b654-da1e3ab1ce7c"
+KernelInterface = "4ee993da-d684-4d17-a7dd-4e58e78d92bf"
+oneAPI = "8f75cd03-7ff8-4ecb-9b8f-daf728133b1b"
+
+[sources]
+oneAPI = {path = "../oneAPI.jl"}
+
+[compat]
+KernelAbstractions = "0.10"
