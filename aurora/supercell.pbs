@@ -1,0 +1,22 @@
+#!/bin/bash
+#PBS -N genesis_supercell
+#PBS -A Julia
+#PBS -q debug
+#PBS -l select=1
+#PBS -l walltime=01:00:00
+#PBS -l filesystems=flare
+#PBS -l place=scatter
+#PBS -j oe
+#PBS -o /lus/flare/projects/Julia/mschanen/git/genesis/aurora/logs/
+
+# Full Breeze splitting_supercell example on one PVC tile.
+REPO=/lus/flare/projects/Julia/mschanen/git/genesis
+cd "$REPO" || exit 1
+source aurora/env.sh
+# One Julia thread: with 32 threads and oneAPI loaded the smoke ladder segfaulted (job 9077322;
+# cause not established, see smoke.pbs).
+export JULIA_NUM_THREADS=1
+
+mkdir -p runs/supercell_aurora && cd runs/supercell_aurora || exit 1
+julia --project=../.. ../../Breeze.jl/examples/splitting_supercell.jl 2>&1 | tee run.log
+echo "== exit ${PIPESTATUS[0]}"

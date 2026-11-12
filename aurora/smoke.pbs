@@ -1,0 +1,30 @@
+#!/bin/bash
+#PBS -N genesis_smoke
+#PBS -A Julia
+#PBS -q debug
+#PBS -l select=1
+#PBS -l walltime=01:00:00
+#PBS -l filesystems=flare
+#PBS -l place=scatter
+#PBS -j oe
+#PBS -o /lus/flare/projects/Julia/mschanen/git/genesis/aurora/logs/
+
+# Smoke ladder: CPU first, then oneAPI with the same OUTDIR (rung 6 compares the two).
+REPO=/lus/flare/projects/Julia/mschanen/git/genesis
+cd "$REPO" || exit 1
+source aurora/env.sh
+JOBTAG=${PBS_JOBID%%.*}
+
+echo "######## smoke CPU ($(date +%T)) ########"
+ARCH=cpu RUNG=all OUTDIR=scripts/output_aurora \
+  julia --project=. scripts/smoke_supercell.jl 2>&1 | tee aurora/logs/smoke_cpu_${JOBTAG}.log
+echo "== exit ${PIPESTATUS[0]}"
+
+# The oneAPI pass runs with one Julia thread: with JULIA_NUM_THREADS=32 (env.sh) and oneAPI
+# loaded, the ladder segfaulted at the start of rung 2, in a set! on a CPU field (job 9077322,
+# reproduced in diag job 9077363). Root cause not established; a core dump suggested the system
+# NEO's (libze_intel_gpu.so.1) SIGSEGV handler being entered from Julia's GC safepoint.
+echo "######## smoke oneAPI ($(date +%T)) ########"
+JULIA_NUM_THREADS=1 ARCH=oneapi RUNG=all KARGS=all OUTDIR=scripts/output_aurora \
+  julia --project=. scripts/smoke_supercell.jl 2>&1 | tee aurora/logs/smoke_oneapi_${JOBTAG}.log
+echo "== exit ${PIPESTATUS[0]}"

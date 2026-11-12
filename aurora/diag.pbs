@@ -1,0 +1,32 @@
+#!/bin/bash
+#PBS -N genesis_diag
+#PBS -A Julia
+#PBS -q debug
+#PBS -l select=1
+#PBS -l walltime=00:45:00
+#PBS -l filesystems=flare
+#PBS -l place=scatter
+#PBS -j oe
+#PBS -o /lus/flare/projects/Julia/mschanen/git/genesis/aurora/logs/
+
+# Bounded diagnosis of the oneAPI smoke-ladder segfault at rung 2 (job 9077322).
+REPO=/lus/flare/projects/Julia/mschanen/git/genesis
+cd "$REPO" || exit 1
+source aurora/env.sh
+JOBTAG=${PBS_JOBID%%.*}
+L=aurora/logs
+
+echo "######## A: aurora/diag_rung2.jl ($(date +%T)) ########"
+julia --project=. aurora/diag_rung2.jl > $L/diag_rung2_${JOBTAG}.log 2>&1
+echo "== exit $?"; tail -n 40 $L/diag_rung2_${JOBTAG}.log
+
+echo "######## B: smoke oneAPI RUNG=2 KARGS=all ($(date +%T)) ########"
+ARCH=oneapi RUNG=2 KARGS=all OUTDIR=scripts/output_aurora \
+  julia --project=. scripts/smoke_supercell.jl > $L/smoke_oneapi_r2_${JOBTAG}.log 2>&1
+echo "== exit $?"; tail -n 40 $L/smoke_oneapi_r2_${JOBTAG}.log
+
+echo "######## C: smoke oneAPI RUNG=2,3,4,5,6 ($(date +%T)) ########"
+ARCH=oneapi RUNG=2,3,4,5,6 KARGS=onfail OUTDIR=scripts/output_aurora \
+  julia --project=. scripts/smoke_supercell.jl > $L/smoke_oneapi_r2-6_${JOBTAG}.log 2>&1
+echo "== exit $?"; tail -n 60 $L/smoke_oneapi_r2-6_${JOBTAG}.log
+echo "######## DONE ($(date +%T)) ########"

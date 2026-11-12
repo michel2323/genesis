@@ -2,6 +2,10 @@
 scripts/logs/
 scripts/output*/
 
+# Aurora PBS job output; core dumps
+aurora/logs/
+core.*
+
 # Run outputs (JLD2, mp4, PNG, logs). Only the scripts and the A750 reference result are kept.
 runs/**
 !runs/*/
