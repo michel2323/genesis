@@ -1,0 +1,12 @@
+Breeze examples/splitting_supercell.jl, unmodified apart from the oneAPI switch on the ms/oneapi
+branch: 168x168x40 grid, Float32 model, Float64 anelastic pressure solver (Breeze default),
+2 hours of simulated time per core. Aurora, one Intel Data Center GPU Max 1550 tile
+(ZE_AFFINITY_MASK=0), module julia/1.12 (Julia 1.12.7, ONEAPI_LTS=1, system Level Zero driver
+v1.3.33578), JULIA_NUM_THREADS=1, warm NEO kernel cache, 2026-11-11, PBS job 9077422
+(walltime 00:06:19, exit 0). Native Float64; FP64 emulation variables not set.
+Excerpt from the end of the run log:
+
+========== Wall-time summary ==========
+case                wall (s)    wall (min)    iterations
+anelastic               44.0          0.73          1402
+compressible            31.9          0.53          1328

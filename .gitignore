@@ -6,11 +6,14 @@ scripts/output*/
 aurora/logs/
 core.*
 
-# Run outputs (JLD2, mp4, PNG, logs). Only the scripts and the A750 reference result are kept.
+# Run outputs (JLD2, mp4, PNG, logs). Only the scripts and the A750/Aurora reference results are
+# kept.
 runs/**
 !runs/*/
 !runs/supercell_a750/supercell_max_w_comparison.png
 !runs/supercell_a750/wall_time_summary.txt
+!runs/supercell_aurora/supercell_max_w_comparison.png
+!runs/supercell_aurora/wall_time_summary.txt
 !runs/supercell_a750_f32solver/splitting_supercell_f32solver.jl
 !runs/supercell_cpu_anelastic_ref/splitting_supercell_cpu.jl
 
